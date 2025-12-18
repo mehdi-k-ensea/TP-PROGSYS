@@ -41,7 +41,9 @@ Grâce à ces ajouts, notre mini-shell se comporte déjà comme un shell classiq
 Question 4 -
 <img width="781" height="266" alt="Screenshot from 2025-12-18 08-22-23" src="https://github.com/user-attachments/assets/bfbb0f53-ffcd-4469-b4e6-09fecc7da9c3" />
 
-On créer 2 fichiers spplémentaires, un test_signal.c (tourne en boucle pour l'interrompre de deux manoeres differentes) et test_exit.c 
+On créer 2 fichiers spplémentaires, un test_signal.c (tourne en boucle pour l'interrompre de deux manoeres differentes) et test_exit.c (exit 3 parce que le fichier test exit retourne 3)
+
+Lorsque le processus se termine normalement, le code de retour est extrait à l’aide de la macro WIFEXITED, puis WEXITSTATUS. En revanche, si le processus est interrompu par un signal, cette situation est détectée avec WIFSIGNALED, et le numéro du signal est obtenu via WTERMSIG. Ces informations sont ensuite intégrées dynamiquement au prompt sous la forme [exit:x] ou [sign:y].
 
 Le choix du chiffre qui est retourné lors d'une commande non reconnue est arbitraire et se définie à l'aide du bout de code suivant : 
 <img width="870" height="186" alt="Capture d&#39;écran 2025-12-18 083350" src="https://github.com/user-attachments/assets/0ef88bfc-febc-4e1f-a581-7091a1574b9e" />
