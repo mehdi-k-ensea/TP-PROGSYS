@@ -39,4 +39,8 @@ Si l’utilisateur envoie un Ctrl+D, la lecture standard retourne une fin de fic
 Grâce à ces ajouts, notre mini-shell se comporte déjà comme un shell classique minimal : il accueille l’utilisateur, exécute des commandes simples en boucle, puis se ferme proprement sur exit ou Ctrl+D.
 
 Question 4 -
-<img width="1327" height="294" alt="image" src="https://github.com/user-attachments/assets/b11c51d3-430d-4958-8525-0119dd3bd46b" />
+<img width="781" height="266" alt="Screenshot from 2025-12-18 08-22-23" src="https://github.com/user-attachments/assets/bfbb0f53-ffcd-4469-b4e6-09fecc7da9c3" />
+
+On créer 2 fichiers spplémentaires, un test_signal.c et test_exit.c
+
+Le choix du chiffre qui est retourné lors d'une erreur est arbitraire et se décide à l'aide du bout de code suivant :
