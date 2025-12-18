@@ -38,13 +38,33 @@ Si l’utilisateur envoie un Ctrl+D, la lecture standard retourne une fin de fic
 
 Grâce à ces ajouts, notre mini-shell se comporte déjà comme un shell classique minimal : il accueille l’utilisateur, exécute des commandes simples en boucle, puis se ferme proprement sur exit ou Ctrl+D.
 
-Question 4 -
+Question 4 -  Affichage du code de retour (ou du signal) de la commande précédente dans le prompt
 <img width="781" height="266" alt="Screenshot from 2025-12-18 08-22-23" src="https://github.com/user-attachments/assets/bfbb0f53-ffcd-4469-b4e6-09fecc7da9c3" />
 
-On créer 2 fichiers spplémentaires, un test_signal.c (tourne en boucle pour l'interrompre de deux manoeres differentes) et test_exit.c (exit 3 parce que le fichier test exit retourne 3)
+On créer 2 fichiers spplémentaires, un test_signal.c (qui tourne en boucle ce qui nous permettra de l'interrompre de deux manières differentes) et test_exit.c ( qui exit 3 parce que le fichier test exit retourne 3). 
 
-Lorsque le processus se termine normalement, le code de retour est extrait à l’aide de la macro WIFEXITED, puis WEXITSTATUS. En revanche, si le processus est interrompu par un signal, cette situation est détectée avec WIFSIGNALED, et le numéro du signal est obtenu via WTERMSIG. Ces informations sont ensuite intégrées dynamiquement au prompt sous la forme [exit:x] ou [sign:y].
+Lorsque le processus se termine normalement, le code de retour est extrait à l’aide de la macro WIFEXITED, puis WEXITSTATUS. En revanche, si le processus est interrompu par un signal, cette situation est détectée avec WIFSIGNALED, et le numéro du signal est obtenu via WTERMSIG. Ces informations sont ensuite intégrées dynamiquement au prompt sous la forme [exit:x] ou [sign:y]. Notre code va renvoyer  [sign:15] lorsqu'on rentrera la commande kill et retournera  [sign:9] lorsqu'on rentrera la commmande kill -9 PID. Le renvoi de [exit:0] se fait de base lorsque le code compile sans erreur. 
 
-Le choix du chiffre qui est retourné lors d'une commande non reconnue est arbitraire et se définie à l'aide du bout de code suivant : 
+Le choix du chiffre x qui est retourné lors d'une commande non reconnue '[exit:x]' est arbitraire et se définie à l'aide du bout de code suivant : 
 <img width="870" height="186" alt="Capture d&#39;écran 2025-12-18 083350" src="https://github.com/user-attachments/assets/0ef88bfc-febc-4e1f-a581-7091a1574b9e" />
+
+Question 5 - Mesure du temps d’exécution de la commande en utilisant l’appel clock_gettime
+on se refere a la page de presentation de clock_gettime, on a la structure suivantee :
+struct timespec {
+               time_t   tv_sec;        /* seconds */
+               long     tv_nsec;       /* nanoseconds */
+           };
+
+Il faut faire attention à la différence entre les différentes unités de temps (seconde et nanoseconde). Dans cette structure, long fait référence aux long int donc on y fera référence avec %ld.
+<img width="1270" height="355" alt="erreurQ5SYS" src="https://github.com/user-attachments/assets/96ebc7e7-f1a2-4053-9eb1-50210547cc8b" />
+
+<img width="581" height="210" alt="Q5sys" src="https://github.com/user-attachments/assets/f03fb0b2-bade-4661-a4cb-d8935cc1a829" />
+
+La commande nano ouvre un fichier, la temps affiché dépend donc de quand nous décidons de fermer le fichier. Idem pour sign:15, tant qu'on ne génère pas le signal qui kill l'exécution, le timer tourne toujours. 
+Cette durée est affichée dans le prompt conjointement avec le code de retour ou le signal, sous la forme [exit:x|y ms].
+
+Question 6 -  Exécution d’une commande complexe
+
+
+Queston è - Gestion des redirections vers stdin et stdout avec ‘<’et‘>’
 
