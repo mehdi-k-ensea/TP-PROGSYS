@@ -64,7 +64,37 @@ La commande nano ouvre un fichier, la temps affiché dépend donc de quand nous 
 Cette durée est affichée dans le prompt conjointement avec le code de retour ou le signal, sous la forme [exit:x|y ms].
 
 Question 6 -  Exécution d’une commande complexe
+Afin de permettre l’exécution de commandes comportant des arguments, la fonction execlp, est remplacée par execvp. Cette fonction permet d’exécuter des commandes de la forme ls -a -b, où -a et -b sont des options passées en arguments.
+
+La ligne de commande saisie par l’utilisateur est d’abord récupérée sous forme de chaîne de caractères, puis découpée en différents tokens correspondant au nom de la commande et à ses arguments. Ces éléments sont ensuite stockés dans un tableau de pointeurs sur caractères (char *argv[]), conforme au format attendu par execvp et terminé par un pointeur NULL.
+
+Le tableau ainsi construit est transmis à la fonction execvp, qui exécute la commande en recherchant le binaire correspondant dans les répertoires définis par la variable d’environnement PATH.
+
+<img width="917" height="282" alt="Q6SYS" src="https://github.com/user-attachments/assets/de57ae04-8a6c-4506-ba53-a7d66650dcbf" />
+
+Concrètement, le programme analyse la ligne de commande caractère par caractère afin d’identifier les espaces. Chaque sous-chaîne comprise entre deux espaces correspond à un argument de la commande.
+Ces sous-chaînes sont alors stockées successivement dans un tableau de pointeurs sur caractères, qui constitue le vecteur d’arguments passé à execvp. 
 
 
-Queston è - Gestion des redirections vers stdin et stdout avec ‘<’et‘>’
+Queston 7 - Gestion des redirections vers stdin et stdout avec ‘<’et‘>’
+
+
+
+<img width="1205" height="670" alt="Q7SYS" src="https://github.com/user-attachments/assets/969db72e-f5ec-4d24-b67d-f172ca204d2d" />
+
+enseash % ls > contenue.txt
+Cette commande exécute le programme ls, qui affiche normalement la liste des fichiers sur la sortie standard (stdout), c’est-à-dire le terminal.
+Grâce à l’opérateur >, la sortie standard est redirigée vers le fichier contenue.txt.
+
+enseash % cat contenue.txt
+La commande cat affiche sur la sortie standard le contenu du fichier passé en argument.
+Ici, cat contenue.txt lit le fichier contenue.txt et affiche son contenu dans le terminal.
+
+enseash % wc -l < contenue.txt
+La commande wc -l compte le nombre de lignes reçues sur son entrée standard (stdin).
+L’opérateur < permet de rediriger l’entrée standard depuis le fichier contenue.txt au lieu du clavier.
+
+Question 8 - Gestion de la redirection de type pipe avec ‘|’
+
+Question 9 - 
 
